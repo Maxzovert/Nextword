@@ -1,65 +1,165 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import {
+  Plus,
+  BookOpen,
+  Star,
+  Brain,
+  TrendingUp,
+  ArrowRight,
+  Sparkles,
+  RotateCcw,
+  FolderOpen,
+} from "lucide-react";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { FeaturedWordCard } from "@/components/words/FeaturedWordCard";
+import { WordCarousel } from "@/components/words/WordCarousel";
+import { CollectionCard } from "@/components/ui/CollectionCard";
+import { StatsCard } from "@/components/ui/StatsCard";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { QuickActions } from "@/components/ui/QuickActions";
+import { IconBadge } from "@/components/ui/IconBadge";
+import { useAppData } from "@/context/AppDataContext";
+import { getGreeting } from "@/lib/utils";
+
+export default function HomePage() {
+  const { data } = useAppData();
+  const { words, collections, stats, settings } = data;
+
+  const recentWords = [...words]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 8);
+  const featuredWord = recentWords[0] ?? null;
+  const rememberWords = words
+    .filter((w) => w.masteryLevel < 100)
+    .sort((a, b) => a.masteryLevel - b.masteryLevel)
+    .slice(0, 8);
+  const dueForReview = words.filter(
+    (w) => !w.nextReviewAt || new Date(w.nextReviewAt) <= new Date(),
+  ).length;
+
+  const showRecentCarousel =
+    recentWords.length > 0 &&
+    (rememberWords.length === 0 ||
+      recentWords.some((w) => !rememberWords.find((r) => r.id === w.id)));
+
+  const firstName = settings.userName.split(" ")[0];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <AppLayout>
+      <header className="mb-6 flex items-center gap-4 py-1 lg:hidden">
+        <IconBadge icon={Sparkles} color="#0075de" size="lg" className="rounded-2xl!" />
+        <div className="min-w-0">
+          <p className="text-base font-semibold leading-snug text-foreground">
+            {getGreeting()}, {firstName}
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">
+            Build your personal vocabulary
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      <header className="mb-8 hidden items-center justify-between lg:flex">
+        <div className="flex min-w-0 items-center gap-4">
+          <IconBadge icon={Sparkles} color="#0075de" size="xl" className="!rounded-2xl" />
+          <div className="min-w-0">
+            <h1 className="break-words text-display text-foreground">
+              {getGreeting()}, {firstName}
+            </h1>
+            <p className="mt-1 text-body-sm text-muted">
+              Build your personal vocabulary
+            </p>
+          </div>
         </div>
-      </main>
-    </div>
+        <Link href="/add" className="btn-primary">
+          <Plus className="h-4 w-4" />
+          Add word
+        </Link>
+      </header>
+
+      <QuickActions className="mb-6 lg:hidden" />
+
+      {featuredWord ? (
+        <FeaturedWordCard word={featuredWord} className="mb-6" />
+      ) : (
+        <div className="empty-state-card mb-6 text-center">
+          <div className="mx-auto mb-4">
+            <IconBadge icon={Sparkles} color="#0075de" size="xl" className="!rounded-2xl" />
+          </div>
+          <p className="text-base font-semibold">Your nest is empty</p>
+          <p className="mt-1 text-sm text-muted">
+            Save words you discover and review them later
+          </p>
+          <Link href="/add" className="btn-compact btn-primary mt-4">
+            <Plus className="h-4 w-4" /> Add your first word
+          </Link>
+        </div>
+      )}
+
+      <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatsCard label="Saved" value={stats.totalWordsSaved} icon={BookOpen} stickerColor="#62aef0" />
+        <StatsCard label="Streak" value={stats.learningStreak} icon={Star} stickerColor="#d6b6f6" />
+        <StatsCard label="Reviewed" value={stats.wordsReviewed} icon={Brain} stickerColor="#2a9d99" />
+        <StatsCard
+          label="Retention"
+          value={`${Math.min(95, Math.round((stats.wordsReviewed / Math.max(stats.totalWordsSaved, 1)) * 100 + 40))}%`}
+          icon={TrendingUp}
+          stickerColor="#1aae39"
+        />
+      </div>
+
+      {dueForReview > 0 && (
+        <Link href="/review" className="review-banner mb-6">
+          <div className="flex items-center gap-3">
+            <IconBadge icon={RotateCcw} color="#0075de" size="md" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">Ready for review</p>
+              <p className="mt-0.5 text-xs text-muted">
+                {dueForReview} word{dueForReview !== 1 ? "s" : ""} waiting
+              </p>
+            </div>
+          </div>
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-on-primary shadow-sm">
+            <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+          </div>
+        </Link>
+      )}
+
+      <WordCarousel
+        words={rememberWords.length > 0 ? rememberWords : recentWords}
+        title="Words to remember"
+        subtitle="Focus on words you are still learning"
+        action={{ href: "/review", label: "Review" }}
+        variant="remember"
+        emptyMessage="No words yet. Add your first word."
+      />
+
+      {showRecentCarousel && (
+        <WordCarousel
+          words={recentWords}
+          title="Recently added"
+          subtitle="Your latest catches"
+          action={{ href: "/library", label: "Library" }}
+          variant="recent"
+          emptyMessage="Nothing here yet."
+        />
+      )}
+
+      <section className="mb-6">
+        <SectionHeader
+          title="Collections"
+          subtitle="Organize words by theme"
+          icon={FolderOpen}
+          iconColor="#d6b6f6"
+          action={{ href: "/collections", label: "View all" }}
+        />
+        <div className="scroll-row carousel-track flex gap-3 pb-1">
+          {collections.map((col) => (
+            <CollectionCard key={col.id} collection={col} />
+          ))}
+        </div>
+      </section>
+    </AppLayout>
   );
 }
