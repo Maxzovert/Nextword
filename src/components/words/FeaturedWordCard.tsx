@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles, Volume2 } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import type { Word } from "@/lib/types";
 import { IconBadge } from "@/components/ui/IconBadge";
+import { PronounceButton } from "@/components/words/PronounceButton";
 import { cn } from "@/lib/utils";
 
 interface FeaturedWordCardProps {
@@ -35,12 +36,7 @@ export function FeaturedWordCard({ word, className }: FeaturedWordCardProps) {
           {word.pronunciation && (
             <span className="break-all text-sm text-white/70">{word.pronunciation}</span>
           )}
-          <button
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
-            aria-label="Play pronunciation"
-          >
-            <Volume2 className="h-4 w-4" strokeWidth={2} />
-          </button>
+          <PronounceButton word={word.word} variant="hero" />
           <span className="shrink-0 rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium capitalize text-white/90">
             {word.partOfSpeech}
           </span>

@@ -5,6 +5,7 @@ import { RotateCcw, ThumbsUp, Meh, ThumbsDown } from "lucide-react";
 import type { Word } from "@/lib/types";
 import { LetterAvatar } from "@/components/ui/IconBadge";
 import { ExampleUsage } from "@/components/words/ExampleUsage";
+import { PronounceButton } from "@/components/words/PronounceButton";
 import { cn } from "@/lib/utils";
 
 const accentColors = ["#62aef0", "#d6b6f6", "#2a9d99", "#ff64c8", "#1aae39", "#dd5b00"];
@@ -44,9 +45,12 @@ export function ReviewFlashcard({ word, onReview }: ReviewFlashcardProps) {
           >
             <LetterAvatar letter={word.word} color={accent} size="xl" className="rounded-2xl!" />
             <h2 className="mt-4 text-center text-display">{word.word}</h2>
-            {word.pronunciation && (
-              <p className="mt-2 text-sm text-muted">{word.pronunciation}</p>
-            )}
+            <div className="mt-3 flex items-center justify-center gap-2">
+              {word.pronunciation && (
+                <p className="text-sm text-muted">{word.pronunciation}</p>
+              )}
+              <PronounceButton word={word.word} />
+            </div>
             <span className="badge-pill mt-3 capitalize">{word.partOfSpeech}</span>
             <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-faint">
               Tap to flip

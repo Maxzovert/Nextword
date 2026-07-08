@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Heart, Volume2, RotateCcw, Trash2, BookOpen, Pencil } from "lucide-react";
+import { ArrowLeft, Heart, RotateCcw, Trash2, BookOpen, Pencil } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TagBadge } from "@/components/ui/TagBadge";
 import { ExampleUsage } from "@/components/words/ExampleUsage";
 import { WordForm } from "@/components/words/WordForm";
+import { PronounceButton } from "@/components/words/PronounceButton";
 import { useAppData } from "@/context/AppDataContext";
 import { cn, formatDate } from "@/lib/utils";
 
@@ -65,9 +66,7 @@ export default function WordDetailPage() {
                 {word.pronunciation && (
                   <span className="text-body-sm text-muted">{word.pronunciation}</span>
                 )}
-                <button className="btn-utility !p-1.5" aria-label="Play pronunciation">
-                  <Volume2 className="h-4 w-4" />
-                </button>
+                <PronounceButton word={word.word} variant="utility" />
                 <span className="badge-pill capitalize">{word.partOfSpeech}</span>
               </div>
             </div>
