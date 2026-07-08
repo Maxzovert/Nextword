@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1284 2778" fill="none">
+  <defs>
+    <linearGradient id="splash-bg" x1="0" y1="0" x2="1284" y2="2778" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f6f5f4"/>
+      <stop offset="0.45" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f6f5f4"/>
+    </linearGradient>
+    <linearGradient id="splash-mark" x1="442" y1="1088" x2="842" y2="1488" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0075de"/>
+      <stop offset="1" stop-color="#213183"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(642 1188) rotate(90) scale(520)">
+      <stop stop-color="#0075de" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#0075de" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1284" height="2778" fill="url(#splash-bg)"/>
+  <circle cx="642" cy="1188" r="520" fill="url(#glow)"/>
+  <circle cx="220" cy="620" r="28" fill="#62aef0" fill-opacity="0.55"/>
+  <circle cx="1040" cy="760" r="22" fill="#d6b6f6" fill-opacity="0.55"/>
+  <circle cx="180" cy="1980" r="20" fill="#2a9d99" fill-opacity="0.5"/>
+  <circle cx="1080" cy="2060" r="24" fill="#ff64c8" fill-opacity="0.45"/>
+  <rect x="442" y="1088" width="400" height="400" rx="88" fill="url(#splash-mark)"/>
+  <rect x="514" y="1172" width="256" height="224" rx="32" fill="#ffffff"/>
+  <path d="M642 1196v176" stroke="#0075de" stroke-width="8" stroke-linecap="round"/>
+  <path d="M554 1228c28-16 52-14 88 6s60 22 88 6v128c-28 14-52 12-88-6s-60-20-88-6v-128c28-16 52-14 88-6z" fill="#0075de" fill-opacity="0.1"/>
+  <path d="M554 1228c28-16 52-14 88 6v128c-28 14-52 12-88-6v-128c28-16 52-14 88-6z" stroke="#0075de" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M730 1228c-28-16-52-14-88 6v128c28 14 52 12 88-6v-128c-28-16-52-14-88-6z" stroke="#213183" stroke-width="7" stroke-linejoin="round"/>
+  <text x="642" y="1660" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="92" font-weight="700" fill="#000000">WordNest</text>
+  <text x="642" y="1748" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="500" fill="#615d59">Your personal vocabulary vault</text>
+</svg>

@@ -9,11 +9,10 @@ import {
   RotateCcw,
   FolderOpen,
   User,
-  BookOpen,
 } from "lucide-react";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { cn } from "@/lib/utils";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
-import { IconBadge } from "@/components/ui/IconBadge";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home, color: "#0075de" },
@@ -31,7 +30,7 @@ export function Sidebar() {
     <aside className="hidden lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-hairline lg:bg-canvas lg:px-4 lg:py-6">
       <div className="mb-8 px-1">
         <Link href="/" className="flex items-center gap-3">
-          <IconBadge icon={BookOpen} color="#0075de" size="md" className="!rounded-xl" />
+          <BrandLogo size="sm" variant="mark" />
           <div>
             <h1 className="text-[15px] font-semibold text-foreground">WordNest</h1>
             <p className="text-[11px] font-medium text-faint">Vocabulary vault</p>

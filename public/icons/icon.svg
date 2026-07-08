@@ -1,8 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <rect width="512" height="512" rx="96" fill="#f6f5f4"/>
-  <rect x="96" y="96" width="320" height="320" rx="48" fill="#ffffff" stroke="#e6e6e6" stroke-width="4"/>
-  <text x="256" y="300" text-anchor="middle" font-size="140" font-family="Inter,Arial,sans-serif" font-weight="700" fill="#000000">W</text>
-  <rect x="360" y="120" width="32" height="32" rx="6" fill="#62aef0"/>
-  <rect x="120" y="360" width="24" height="24" rx="4" fill="#d6b6f6"/>
-  <rect x="380" y="340" width="20" height="20" rx="4" fill="#2a9d99"/>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="48" x2="432" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0075de"/>
+      <stop offset="1" stop-color="#213183"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#f6f5f4"/>
+  <rect x="56" y="56" width="400" height="400" rx="88" fill="url(#bg)"/>
+  <rect x="128" y="144" width="256" height="224" rx="32" fill="#ffffff"/>
+  <path d="M256 168v176" stroke="#0075de" stroke-width="8" stroke-linecap="round"/>
+  <path d="M168 200c28-16 52-14 88 6s60 22 88 6v128c-28 14-52 12-88-6s-60-20-88-6V200z" fill="#0075de" fill-opacity="0.1"/>
+  <path d="M168 200c28-16 52-14 88 6v128c-28 14-52 12-88-6V200z" stroke="#0075de" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M344 200c-28-16-52-14-88 6v128c28 14 52 12 88-6V200z" stroke="#213183" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="132" cy="132" r="16" fill="#62aef0"/>
+  <circle cx="392" cy="156" r="12" fill="#d6b6f6"/>
+  <circle cx="368" cy="388" r="14" fill="#2a9d99"/>
+  <circle cx="120" cy="372" r="10" fill="#ff64c8"/>
 </svg>
