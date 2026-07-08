@@ -12,10 +12,10 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-background">
+    <div className="relative min-h-dvh w-full bg-background">
       <FloatingDecorations />
       <MobileHeader />
-      <div className="relative flex min-h-screen w-full">
+      <div className="relative flex min-h-dvh w-full">
         <Sidebar />
         <div className="flex min-w-0 flex-1 flex-col">
           <main className="main-content w-full min-w-0 flex-1 px-5 sm:px-6 md:px-8 lg:pb-8 lg:pt-6">

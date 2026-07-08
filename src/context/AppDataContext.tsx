@@ -278,7 +278,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
   if (isLoading || !data) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex min-h-dvh items-center justify-center bg-background">
         <div className="text-center">
           <div className="mx-auto mb-4 h-8 w-8 animate-pulse rounded-sm bg-hairline" />
           <p className="text-body-sm text-muted">Loading…</p>
