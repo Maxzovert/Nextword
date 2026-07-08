@@ -4,6 +4,7 @@ import { useState } from "react";
 import { RotateCcw, ThumbsUp, Meh, ThumbsDown } from "lucide-react";
 import type { Word } from "@/lib/types";
 import { LetterAvatar } from "@/components/ui/IconBadge";
+import { ExampleUsage } from "@/components/words/ExampleUsage";
 import { cn } from "@/lib/utils";
 
 const accentColors = ["#62aef0", "#d6b6f6", "#2a9d99", "#ff64c8", "#1aae39", "#dd5b00"];
@@ -24,40 +25,52 @@ export function ReviewFlashcard({ word, onReview }: ReviewFlashcardProps) {
 
   return (
     <div className="mx-auto w-full max-w-lg">
-      <div
-        className="perspective-1000 relative h-[300px] cursor-pointer sm:h-[340px]"
-        style={{ "--accent": accent } as React.CSSProperties}
-        onClick={() => setFlipped(!flipped)}
-      >
+      <div className="flip-scene h-[320px] sm:h-[360px]">
         <div
-          className={cn(
-            "relative h-full w-full transition-transform duration-500 transform-style-3d",
-            flipped && "rotate-y-180",
-          )}
+          className={cn("flip-inner h-full w-full", flipped && "is-flipped")}
+          onClick={() => setFlipped(!flipped)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setFlipped(!flipped);
+            }
+          }}
         >
-          <div className="flashcard-shell absolute inset-0 flex flex-col items-center justify-center backface-hidden p-8">
+          <div
+            className="flip-face flashcard-shell flex flex-col items-center justify-center p-6 sm:p-8"
+            style={{ "--accent": accent } as React.CSSProperties}
+          >
             <LetterAvatar letter={word.word} color={accent} size="xl" className="rounded-2xl!" />
-            <h2 className="mt-5 text-center text-display">{word.word}</h2>
+            <h2 className="mt-4 text-center text-display">{word.word}</h2>
             {word.pronunciation && (
               <p className="mt-2 text-sm text-muted">{word.pronunciation}</p>
             )}
             <span className="badge-pill mt-3 capitalize">{word.partOfSpeech}</span>
-            <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-faint">
+            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-faint">
               Tap to flip
             </p>
           </div>
 
-          <div className="flashcard-shell absolute inset-0 flex flex-col justify-center backface-hidden rotate-y-180 p-8">
+          <div
+            className="flip-face flip-face-back flashcard-shell flex flex-col justify-center overflow-y-auto p-6 sm:p-8"
+            style={{ "--accent": accent } as React.CSSProperties}
+          >
             {word.simpleMeaning && (
               <p className="text-base font-semibold text-primary">{word.simpleMeaning}</p>
             )}
-            <p className="mt-2 text-sm leading-relaxed text-foreground">
-              {word.meaning}
-            </p>
+            {word.meaning && (
+              <p className="mt-2 text-sm leading-relaxed text-foreground">{word.meaning}</p>
+            )}
             {word.example && (
-              <p className="mt-4 rounded-xl border border-hairline bg-background px-4 py-3 text-sm italic text-muted">
-                &ldquo;{word.example}&rdquo;
-              </p>
+              <div className="mt-4">
+                <ExampleUsage
+                  example={word.example}
+                  word={word.word}
+                  className="rounded-xl border border-hairline bg-background px-4 py-3"
+                />
+              </div>
             )}
           </div>
         </div>

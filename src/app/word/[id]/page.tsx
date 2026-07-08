@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Heart, Volume2, RotateCcw, Trash2, BookOpen } from "lucide-react";
+import { ArrowLeft, Heart, Volume2, RotateCcw, Trash2, BookOpen, Pencil } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { TagBadge } from "@/components/ui/TagBadge";
+import { ExampleUsage } from "@/components/words/ExampleUsage";
+import { WordForm } from "@/components/words/WordForm";
 import { useAppData } from "@/context/AppDataContext";
 import { cn, formatDate } from "@/lib/utils";
 
@@ -14,13 +17,14 @@ export default function WordDetailPage() {
   const id = params.id as string;
   const { data, toggleFavorite, deleteWord } = useAppData();
   const word = data.words.find((w) => w.id === id);
+  const [editing, setEditing] = useState(false);
 
   if (!word) {
     return (
       <AppLayout>
         <div className="py-20 text-center">
           <p className="text-title">Word not found</p>
-          <Link href="/library" className="mt-4 text-body-sm text-primary">← Back to library</Link>
+          <Link href="/library" className="mt-4 text-body-sm text-primary">Back to library</Link>
         </div>
       </AppLayout>
     );
@@ -32,6 +36,18 @@ export default function WordDetailPage() {
       router.push("/library");
     }
   };
+
+  if (editing) {
+    return (
+      <AppLayout>
+        <WordForm
+          mode="edit"
+          initialWord={word}
+          onCancel={() => setEditing(false)}
+        />
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
@@ -46,7 +62,9 @@ export default function WordDetailPage() {
             <div className="min-w-0 flex-1">
               <h1 className="break-words text-display text-foreground">{word.word}</h1>
               <div className="mt-3 flex flex-wrap items-center gap-3">
-                <span className="text-body-sm text-muted">{word.pronunciation}</span>
+                {word.pronunciation && (
+                  <span className="text-body-sm text-muted">{word.pronunciation}</span>
+                )}
                 <button className="btn-utility !p-1.5" aria-label="Play pronunciation">
                   <Volume2 className="h-4 w-4" />
                 </button>
@@ -77,36 +95,12 @@ export default function WordDetailPage() {
           )}
           {word.example && (
             <section className="feature-card bg-background">
-              <h2 className="text-eyebrow uppercase text-faint">Example</h2>
-              <p className="mt-2 text-body-sm italic">&ldquo;{word.example}&rdquo;</p>
-            </section>
-          )}
-          <div className="grid gap-6 sm:grid-cols-2">
-            {word.synonyms.length > 0 && (
-              <section>
-                <h2 className="text-eyebrow uppercase text-faint">Synonyms</h2>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {word.synonyms.map((s) => (
-                    <span key={s} className="badge-pill !text-foreground">{s}</span>
-                  ))}
-                </div>
-              </section>
-            )}
-            {word.antonyms.length > 0 && (
-              <section>
-                <h2 className="text-eyebrow uppercase text-faint">Antonyms</h2>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {word.antonyms.map((a) => (
-                    <span key={a} className="badge-pill !text-foreground">{a}</span>
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-          {word.note && (
-            <section className="feature-card bg-background">
-              <h2 className="text-eyebrow uppercase text-faint">Personal note</h2>
-              <p className="mt-2 text-body-sm">{word.note}</p>
+              <h2 className="text-eyebrow uppercase text-faint">Example usage</h2>
+              <ExampleUsage
+                example={word.example}
+                word={word.word}
+                className="mt-3 border-l-2 border-primary/30 pl-4"
+              />
             </section>
           )}
           {word.source && (
@@ -130,7 +124,11 @@ export default function WordDetailPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 border-t border-hairline p-4 sm:flex-row sm:p-6 lg:p-8">
+        <div className="flex flex-col gap-2 border-t border-hairline p-4 sm:flex-row sm:flex-wrap sm:p-6 lg:p-8">
+          <button onClick={() => setEditing(true)} className="btn-primary w-full sm:w-auto">
+            <Pencil className="h-4 w-4" />
+            Edit word
+          </button>
           <Link href="/review" className="btn-secondary w-full sm:w-auto">
             <RotateCcw className="h-4 w-4" />
             Review

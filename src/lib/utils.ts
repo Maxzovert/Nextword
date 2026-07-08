@@ -1,5 +1,35 @@
 import type { AppStats, Word } from "./types";
 
+export function formatExampleUsage(example: string): string {
+  return example.trim().replace(/\s+/g, " ");
+}
+
+export function splitExampleWithWord(
+  example: string,
+  word: string,
+): { before: string; match: string; after: string } | null {
+  const cleaned = formatExampleUsage(example);
+  if (!cleaned || !word.trim()) return null;
+
+  const pattern = new RegExp(`(${escapeRegExp(word.trim())})`, "i");
+  const match = cleaned.match(pattern);
+  if (!match || match.index === undefined) {
+    return { before: cleaned, match: "", after: "" };
+  }
+
+  const index = match.index;
+  const matched = match[1];
+  return {
+    before: cleaned.slice(0, index),
+    match: matched,
+    after: cleaned.slice(index + matched.length),
+  };
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export function generateId(): string {
   return crypto.randomUUID();
 }
@@ -36,13 +66,6 @@ export function parseTagsInput(input: string): string[] {
   return input
     .split(",")
     .map((t) => t.trim().toLowerCase())
-    .filter(Boolean);
-}
-
-export function parseListInput(input: string): string[] {
-  return input
-    .split(",")
-    .map((s) => s.trim())
     .filter(Boolean);
 }
 
